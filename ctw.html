@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>video play in webview</title>
+  <script type="text/javascript" src="js/script.js"></script>
+  <link href="style/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="page" id="page2">
+      <div id="bg_video1" class="bg_video">
+        <video webkit-playsinline="true" preload controls id="video" >
+          <source src="video/37622100.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+
+  <script type="text/javascript">
+    document.ontouchmove = function(e) {
+      e.preventDefault();
+    };
+    var browser = {
+      versions: function() {
+        var u = navigator.userAgent,
+          app = navigator.appVersion;
+        return {
+          trident: u.indexOf('Trident') > -1, //IE内核
+          presto: u.indexOf('Presto') > -1, //opera内核
+          webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+          gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+          mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+          android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+          iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+          iPad: u.indexOf('iPad') > -1, //是否iPad
+          webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+          weixin: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
+          qq: u.match(/\sQQ/i) == " qq" //是否QQ
+        };
+      }(),
+      language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    };
+    video = document.getElementById("video");
+    function is_iOS7() {
+      // 判断是否 iPhone 或者 iPod
+      if ((navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i))) {
+        // 判断系统版本号是否大于 4
+        return Boolean(navigator.userAgent.match(/OS [7]_\d[_\d]* like Mac OS X/i));
+      } else {
+        return false;
+      }
+    }
+
+    if (is_iOS7()) {
+      video.addEventListener("webkitfullscreenchange", function(e) {
+        if (!document.webkitIsFullScreen);
+      }, false);
+    }
+    if (!browser.versions.android) {
+      video.addEventListener("loadstart", function() {
+        this.play();
+        setTimeout(function() {
+          video.pause();
+        }, 200);
+      }, false);
+    }
+    if (browser.versions.android) {
+      video.addEventListener("ended", function() {
+        $("#video").remove();
+      }, false);
+      $(".bg_video video").css({
+        "width": "100%",
+        "min-height": "100%"
+      });
+    }
+
+    setTimeout(function(){
+
+      video.play();
+    },1000);
+  </script>
+
+</body>
+
+</html>
