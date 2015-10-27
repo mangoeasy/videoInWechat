@@ -51,7 +51,7 @@ video:-webkit-full-screen{
 #textOnVide {
   position:absolute;
   left:50%;
-  top:30%;
+  top:40%;
   z-index: 9999;
 
 }
