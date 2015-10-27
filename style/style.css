@@ -48,3 +48,10 @@ video:-webkit-full-screen{
     width: 100%;
     height: 1135px;
 }
+#textOnVide {
+  position:absolute;
+  left:50%;
+  top:30%;
+  z-index: 9999;
+
+}
